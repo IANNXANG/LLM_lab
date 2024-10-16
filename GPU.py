@@ -15,6 +15,8 @@ inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
 # 生成回答
 outputs = model.generate(**inputs, max_length=1000)
+print(outputs[0])
+print(outputs)
 answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
 
 print(answer)
