@@ -1,9 +1,11 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
+model_path = "/home/jovyan/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct"
+
 # 加载模型和分词器
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-7B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B-Instruct")
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(model_path)
 
 # 设置模型运行环境
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
