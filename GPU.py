@@ -13,12 +13,8 @@ model.to(device)
 prompt = "一个数学问题：2+3等于多少？"
 inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
-# 使用生成器来逐个生成并输出 token
-def generate_tokens():
-    outputs = model.generate(**inputs, max_length=1000, do_sample=True)
-    for output in outputs:
-        yield tokenizer.decode(output, skip_special_tokens=False)
+# 生成回答
+outputs = model.generate(**inputs, max_length=1000)
+answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
 
-# 打印即时输出
-for answer in generate_tokens():
-    print(answer)
+print(answer)
