@@ -14,7 +14,7 @@ prompt = "一个数学问题：2+3等于多少？"
 inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
 # 生成回答
-outputs = model.generate(**inputs, max_length=100)
+outputs = model.generate(**inputs, max_length=1000)
 answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 print(answer)
