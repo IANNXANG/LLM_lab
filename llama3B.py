@@ -1,8 +1,10 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-3B-Instruct")
+model_path = '/home/jovyan/.cache/huggingface/hub/models--meta-llama--Llama-3.2-3B-Instruct'
+
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(model_path)
 
 # 设置模型运行环境
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
