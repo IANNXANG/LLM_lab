@@ -30,7 +30,7 @@ while True:
     # 将历史输入和当前输入合并为新的提示
     full_prompt = " ".join(history + [prompt])
     inputs = tokenizer(full_prompt, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_length=1000)
+    outputs = model.generate(**inputs, max_length=10000)
     answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
     print(answer)
     # 将当前输入和回答添加到历史记录中
