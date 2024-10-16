@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-model_path = "/home/jovyan/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct"
+model_path = "Qwen/Qwen2.5-7B-Instruct"
 
 # 加载模型和分词器
 tokenizer = AutoTokenizer.from_pretrained(model_path)
