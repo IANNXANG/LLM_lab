@@ -32,7 +32,7 @@ def chat():
         output = model.generate(**inputs, max_new_tokens=50)
 
         # 解码输出
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        response = tokenizer.decode(output[0], skip_special_tokens=False)
 
         # 添加模型回复到对话
         conversation.append({"role": "assistant", "content": response})
