@@ -1,6 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from pprint import pprint
+import pprint
 
 cache_dir = "/pubshare/LLM"
 # 加载模型和分词器
@@ -30,4 +30,4 @@ result_dict = {}
 for index, part in enumerate(parts):
     key = f"step{index}" if index > 0 else "question"
     result_dict[key] = part
-pprint(result_dict)
+pprint.pprint(result_dict)
