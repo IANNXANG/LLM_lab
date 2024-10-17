@@ -11,6 +11,9 @@ with open('questions.json', 'r') as file:
 for item in data['questions']:
     print(f"问题：{item['question']}，答案：{item['answer']}")
 
+question_count = len(data['questions'])
+print(f"JSON 中问题的条数为：{question_count}")
+
 input("stop")
 
 cache_dir = "/pubshare/LLM"
