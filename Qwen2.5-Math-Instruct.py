@@ -1,5 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+import pprint
 
 # 加载模型和分词器
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct")
@@ -28,4 +29,4 @@ result_dict = {}
 for index, part in enumerate(parts):
     key = f"step{index}" if index > 0 else "question"
     result_dict[key] = part
-print(result_dict)
+pprint.pprint(result_dict)
