@@ -12,7 +12,7 @@ with open('questions.json', 'r') as file:
 question_count = len(data)
 print(f"JSON 中问题的条数为：{question_count}")
 
-input("stop:")
+input("stop Enter to continue:")
 
 cache_dir = "/pubshare/LLM"
 cache_dir = "/home/jovyan/.cache/huggingface/hub"
@@ -49,5 +49,5 @@ def PrintQandA(prompt):
 for item in data:
     print(f"问题：{item['question']}\n答案：{item['answer']}")
     PrintQandA(item['question']+"\n\n")
-    input("stop:")
+    input("stop Enter to continue:")
 
