@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 model_path = "Qwen/Qwen2.5-7B-Instruct"
-#model_path = "/home/jovyan/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct"
+# model_path = "/home/jovyan/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct"
 
 # 加载模型和分词器
 tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -14,6 +14,12 @@ model.to(device)
 
 # 初始化对话历史
 conversation_history = ""
+
+def trim_response(response, user_input):
+    if user_input in response:
+        return response[:response.index(user_input)]
+    else:
+        return response
 
 while True:
     # 获取用户输入
@@ -28,7 +34,6 @@ while True:
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     # 更新对话历史
     conversation_history = response
-    # 如果发现回复中包含用户输入，截断回复到用户输入的位置
-    if user_input in response:
-        response = response[:response.index(user_input)]
-    print("模型：", response)
+    # 裁剪输出
+    trimmed_response = trim_response(response, user_input)
+    print("模型：", trimmed_response)
