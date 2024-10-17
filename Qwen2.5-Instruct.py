@@ -37,7 +37,7 @@ def chat():
         output = model.generate(**inputs, max_new_tokens=50)
 
         # 解码模型输出
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        response = tokenizer.decode(output[0], skip_special_tokens=False)
 
         # 将助手的回复添加到对话历史中
         conversation.append({"role": "assistant", "content": response})
