@@ -13,8 +13,8 @@ input_text = "你好，LLaMA！"
 inputs = tokenizer(input_text, return_tensors="pt")
 
 # 推理生成
-outputs = model.generate(inputs["input_ids"], max_length=50, num_return_sequences=1)
+outputs = model.generate(inputs["input_ids"], max_length=500, num_return_sequences=1)
 
 # 解码输出
-generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+generated_text = tokenizer.decode(outputs[0], skip_special_tokens=False)
 print(generated_text)
