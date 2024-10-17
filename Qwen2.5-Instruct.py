@@ -15,19 +15,16 @@ def chat():
     conversation = []  # 用于存储对话历史
     while True:
         # 获取用户输入
-        user_input = input("用户：")
+        user_input = input("用户：")  # 确保输入来自实际用户
         conversation.append({"role": "user", "content": user_input})
 
         # 保持最多5轮对话（10条消息，5轮问答）
         if len(conversation) > 10:
             conversation = conversation[-10:]
 
-        # 获取最近5轮的对话内容，并进行拼接
-        recent_conversation = conversation[-10:]  # 仅保留最近5轮问答
-
-        # 构造输入给模型
+        # 构造输入给模型的对话内容，只包含最近的对话历史
         input_text = ""
-        for turn in recent_conversation:
+        for turn in conversation:
             if turn["role"] == "user":
                 input_text += f"用户: {turn['content']}\n"
             else:
@@ -36,13 +33,13 @@ def chat():
         # 编码输入并移动到设备
         inputs = tokenizer(input_text, return_tensors="pt").to(device)
 
-        # 生成模型输出
+        # 生成模型输出，只生成助手的回复，不预测用户的输入
         output = model.generate(**inputs, max_new_tokens=50)
 
-        # 解码输出
+        # 解码模型输出
         response = tokenizer.decode(output[0], skip_special_tokens=True)
 
-        # 添加模型回复到对话
+        # 将助手的回复添加到对话历史中
         conversation.append({"role": "assistant", "content": response})
 
         # 打印模型的回复
