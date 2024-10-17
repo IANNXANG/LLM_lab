@@ -2,9 +2,10 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from pprint import pprint
 
+cache_dir = "/pubshare/LLM"
 # 加载模型和分词器
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct")
+tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", cache_dir)
+model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", cache_dir)
 
 # 设置模型运行环境
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
