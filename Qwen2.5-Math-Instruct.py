@@ -7,14 +7,12 @@ import json
 with open('questions.json', 'r') as file:
     data = json.load(file)
 
-# 打印读取到的 JSON 数据
-for item in data:
-    print(f"问题：{item['question']}，答案：{item['answer']}")
+
 
 question_count = len(data)
 print(f"JSON 中问题的条数为：{question_count}")
 
-input("stop")
+input("stop:")
 
 cache_dir = "/pubshare/LLM"
 cache_dir = "/home/jovyan/.cache/huggingface/hub"
@@ -26,23 +24,31 @@ model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", ca
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-# 可以添加一些示例输入进行测试
-prompt = ("某人花19快钱买了个玩具，20快钱卖出去。他觉得不划算，又花21快钱买进，22快钱卖出去。"
-          "请问它赚了多少钱？\n\n")
-inputs = tokenizer(prompt, return_tensors="pt").to(device)
+def PrintQandA(prompt):
+    # 可以添加一些示例输入进行测试
+    prompt = ("某人花19快钱买了个玩具，20快钱卖出去。他觉得不划算，又花21快钱买进，22快钱卖出去。"
+              "请问它赚了多少钱？\n\n")
+    inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
-# 生成回答
-outputs = model.generate(**inputs, max_length=1000)
-# print(outputs[0])
-# print(outputs)
-answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
+    # 生成回答
+    outputs = model.generate(**inputs, max_length=1000)
+    # print(outputs[0])
+    # print(outputs)
+    answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
 
-print(answer)
-print("------------------------------------------")
+    print(answer)
+    print("------------------------------------------")
 
-parts = answer.split("\n\n")
-result_dict = {}
-for index, part in enumerate(parts):
-    key = f"step{index}" if index > 0 else "question"
-    result_dict[key] = part
-pprint.pprint(result_dict)
+    parts = answer.split("\n\n")
+    result_dict = {}
+    for index, part in enumerate(parts):
+        key = f"step{index}" if index > 0 else "question"
+        result_dict[key] = part
+    pprint.pprint(result_dict)
+
+# 打印读取到的 JSON 数据
+for item in data:
+    print(f"问题：{item['question']}\n答案：{item['answer']}")
+    PrintQandA(item['question'])
+    input("stop:")
+
