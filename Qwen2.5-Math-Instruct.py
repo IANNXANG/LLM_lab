@@ -12,7 +12,7 @@ with open('questions.json', 'r') as file:
 question_count = len(data)
 print(f"JSON 中问题的条数为：{question_count}")
 
-input("stop Enter to continue:")
+input("Press Enter to continue:")
 
 cache_dir = "/pubshare/LLM"
 cache_dir = "/home/jovyan/.cache/huggingface/hub"
@@ -42,7 +42,7 @@ def PrintQandA(prompt):
         key = f"step{index}" if index > 0 else "question"
         result_dict[key] = part
     print("------------------------------------------------------------------------------------")
-    input("stop Enter to continue:")
+    input("Press Enter to continue:")
     pprint.pprint(result_dict)
 
 # 打印读取到的 JSON 数据
