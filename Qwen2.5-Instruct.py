@@ -1,30 +1,33 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_path = "Qwen/Qwen2.5-7B-Instruct"
+model_name = "Qwen/Qwen2-7B-Instruct"
+device = "cuda" # the device to load the model onto
 
-# 加载模型和分词器
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForCausalLM.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(
+model_name,
+torch_dtype="auto",
+device_map="auto"
+)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# 设置模型运行环境
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+prompt = "Give me a short introduction to large language model."
+messages = [
+{"role": "system", "content": "You are a helpful assistant."},
+{"role": "user", "content": prompt}
+]
+text = tokenizer.apply_chat_template(
+messages,
+tokenize=False,
+add_generation_prompt=True
+)
+model_inputs = tokenizer([text], return_tensors="pt").to(device)
 
-# 初始化对话历史
-conversation_history = ""
+generated_ids = model.generate(
+**model_inputs,
+max_new_tokens=512
+)
+generated_ids = [
+output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+]
 
-while True:
-    # 获取用户输入
-    user_input = input("你：")
-    # 将用户输入和对话历史拼接
-    input_text = conversation_history + user_input
-    # 对输入进行编码
-    input_ids = tokenizer.encode(input_text, return_tensors="pt").to(device)
-    # 生成回复
-    output = model.generate(input_ids, max_length=1000, num_return_sequences=1)
-    # 解码回复
-    response = tokenizer.decode(output[0], skip_special_tokens=True)
-    # 更新对话历史
-    conversation_history = response
-    print("模型：", response)
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]

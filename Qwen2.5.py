@@ -5,6 +5,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-7B")
 model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B")
 
+
+
 # 设置模型运行环境
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
