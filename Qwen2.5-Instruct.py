@@ -29,9 +29,9 @@ while True:
     # 对输入进行编码
     input_ids = tokenizer.encode(input_text, return_tensors="pt").to(device)
     # 生成回复时设置较低的温度参数以降低随机性
-    output = model.generate(input_ids, max_length=500, num_return_sequences=1, temperature=0.5)
+    output = model.generate(input_ids, max_length=500, num_return_sequences=1)
     # 解码回复
-    response = tokenizer.decode(output[0], skip_special_tokens=True)
+    response = tokenizer.decode(output[0], skip_special_tokens=False)
     # 更新对话历史
     conversation_history = response
     # 裁剪输出
