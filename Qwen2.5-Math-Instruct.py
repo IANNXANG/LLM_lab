@@ -1,6 +1,17 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import pprint
+import json
+
+# 读取 JSON 文件
+with open('questions.json', 'r') as file:
+    data = json.load(file)
+
+# 打印读取到的 JSON 数据
+for item in data['questions']:
+    print(f"问题：{item['question']}，答案：{item['answer']}")
+
+input("stop")
 
 cache_dir = "/pubshare/LLM"
 cache_dir = "/home/jovyan/.cache/huggingface/hub"
