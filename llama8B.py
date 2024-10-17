@@ -6,8 +6,11 @@ path_to_model_directory = "/pubshare/LLM/Meta-Llama-3-8B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(path_to_model_directory)
 model = AutoModelForCausalLM.from_pretrained(path_to_model_directory)
 
-# 设置pad_token_id为eos_token_id
-model.config.pad_token_id = model.config.eos_token_id
+# 添加新的pad_token
+tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
+# 更新模型词汇表
+model.resize_token_embeddings(len(tokenizer))
 
 # 准备输入文本
 input_text = "你好，LLaMA！"
