@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-import pprint
 import json
+from utils import PrintQandA
 
 # 读取 JSON 文件
 with open('questions.json', 'r') as file:
@@ -12,7 +12,6 @@ with open('questions.json', 'r') as file:
 question_count = len(data)
 print(f"JSON 中问题的条数为：{question_count}")
 
-input("Press Enter to continue:")
 
 cache_dir = "/pubshare/LLM"
 cache_dir = "/home/jovyan/.cache/huggingface/hub"
@@ -24,31 +23,12 @@ model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", ca
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-def PrintQandA(prompt):
-    # 可以添加一些示例输入进行测试
 
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
-
-    # 生成回答
-    outputs = model.generate(**inputs, max_length=1000)
-    # print(outputs[0])
-    # print(outputs)
-    answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
-
-
-    parts = answer.split("\n\n")
-    result_dict = {}
-    for index, part in enumerate(parts):
-        key = f"step{index}" if index > 0 else "question"
-        result_dict[key] = part
-    print("------------------------------------------------------------------------------------")
-    input("Press Enter to continue:")
-    pprint.pprint(result_dict)
 
 # 打印读取到的 JSON 数据
 for item in data:
     print("------------------------------------------------------------------------------------")
     print(f"问题：{item['question']}\n答案：{item['answer']}")
-    PrintQandA(item['question']+"\n\n")
+    PrintQandA(item['question']+"\n\n",tokenizer,model)
 
 
