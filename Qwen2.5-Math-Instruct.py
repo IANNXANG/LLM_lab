@@ -3,6 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import pprint
 
 cache_dir = "/pubshare/LLM"
+cache_dir = "/home/jovyan/.cache/huggingface/hub"
 # 加载模型和分词器
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", cache_dir)
 model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-Math-7B-Instruct", cache_dir)
