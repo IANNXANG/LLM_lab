@@ -49,6 +49,6 @@ def PrintQandA(prompt):
 # 打印读取到的 JSON 数据
 for item in data:
     print(f"问题：{item['question']}\n答案：{item['answer']}")
-    PrintQandA(item['question'])
+    PrintQandA(item['question']+"\n\n")
     input("stop:")
 
