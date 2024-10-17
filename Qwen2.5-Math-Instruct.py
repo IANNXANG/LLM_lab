@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # 可以添加一些示例输入进行测试
-prompt = "一个数学问题：2+3等于多少？"
+prompt = "What is the greatest common factor of $20 !$ and $200,\\!000$?  (Reminder: If $n$ is a positive integer, then $n!$ stands for the product $1\\cdot 2\\cdot 3\\cdot \\cdots \\cdot (n-1)\\cdot n$.)"
 inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
 # 生成回答
