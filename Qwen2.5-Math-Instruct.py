@@ -8,10 +8,10 @@ with open('questions.json', 'r') as file:
     data = json.load(file)
 
 # 打印读取到的 JSON 数据
-for item in data['questions']:
+for item in data:
     print(f"问题：{item['question']}，答案：{item['answer']}")
 
-question_count = len(data['questions'])
+question_count = len(data)
 print(f"JSON 中问题的条数为：{question_count}")
 
 input("stop")
