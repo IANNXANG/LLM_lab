@@ -26,6 +26,6 @@ print("------------------------------------------")
 parts = answer.split("\n\n")
 result_dict = {}
 for index, part in enumerate(parts):
-    key = f"step{index + 1}" if index > 0 else "question"
+    key = f"step{index}" if index > 0 else "question"
     result_dict[key] = part
 print(result_dict)
