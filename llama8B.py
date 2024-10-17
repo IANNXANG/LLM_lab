@@ -1,39 +1,20 @@
-import torch
+# Load model directly
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
+path_to_model_directory = "/pubshare/LLM/Meta-Llama-3-8B-Instruct"
 
-# 设置模型运行环境
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+tokenizer = AutoTokenizer.from_pretrained(path_to_model_directory)
+model = AutoModelForCausalLM.from_pretrained(path_to_model_directory)
 
-# 可以添加一些示例输入进行测试
-prompt = "一个数学问题：2+3等于多少？"
-inputs = tokenizer(prompt, return_tensors="pt").to(device)
+# 准备输入文本
+input_text = "你好，LLaMA！"
 
-# 生成回答
-outputs = model.generate(**inputs, max_length=10000)
-# print(outputs[0])
-# print(outputs)
-answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
+# 将文本转为token
+inputs = tokenizer(input_text, return_tensors="pt")
 
-print(answer)
+# 推理生成
+outputs = model.generate(inputs["input_ids"], max_length=50, num_return_sequences=1)
 
-
-history = []
-history.append(answer)
-
-while True:
-    prompt = input("请输入你的问题：")
-    if prompt.lower() == "exit":
-        break
-    # 将历史输入和当前输入合并为新的提示
-    full_prompt = " ".join(history + [prompt])
-    inputs = tokenizer(full_prompt, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_length=10000)
-    answer = tokenizer.decode(outputs[0], skip_special_tokens=False)
-    print(answer)
-    # 将当前输入和回答添加到历史记录中
-    history.append(prompt)
-    history.append(answer)
+# 解码输出
+generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+print(generated_text)
