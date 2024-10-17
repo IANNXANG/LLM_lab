@@ -41,12 +41,13 @@ def PrintQandA(prompt):
     for index, part in enumerate(parts):
         key = f"step{index}" if index > 0 else "question"
         result_dict[key] = part
-    print("------------------------------------------")
+    print("------------------------------------------------------------------------------------")
     input("stop Enter to continue:")
     pprint.pprint(result_dict)
 
 # 打印读取到的 JSON 数据
 for item in data:
+    print("------------------------------------------------------------------------------------")
     print(f"问题：{item['question']}\n答案：{item['answer']}")
     PrintQandA(item['question']+"\n\n")
 
